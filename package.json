@@ -1,0 +1,8 @@
+{
+  "name": "@nrgsoft/core",
+  "version": "1.0.0-beta.0",
+  "main": "index.js",
+  "repository": "https://github.com/NrgSoftPro/jsCore.git",
+  "author": "NrgSoftPro",
+  "license": "MIT"
+}
