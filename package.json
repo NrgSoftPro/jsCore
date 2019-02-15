@@ -1,8 +1,16 @@
 {
-  "name": "@nrgsoft/core",
+  "name": "@nrg/core",
   "version": "1.0.0-beta.0",
   "main": "index.js",
-  "repository": "https://github.com/NrgSoftPro/jsCore.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NrgSoftPro/jsCore.git"
+  },
   "author": "NrgSoftPro",
-  "license": "MIT"
+  "license": "MIT",
+  "description": "@nrg/core",
+  "bugs": {
+    "url": "https://github.com/NrgSoftPro/jsCore/issues"
+  },
+  "homepage": "https://github.com/NrgSoftPro/jsCore"
 }

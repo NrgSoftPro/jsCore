@@ -1,5 +1,3 @@
-const Component = require('./Component')
-
 const self = class {
 
   static map (object, component, fromEventName, toEventName) {
@@ -9,7 +7,7 @@ const self = class {
       component.forEach(item => {
         self.map(object, item, fromEventName, toEventName)
       })
-    } else if (component instanceof Component) {
+    } else if (component.on) {
       component.on(fromEventName, (event, ...contexts) => {
         object.trigger(toEventName, event, object, ...contexts)
       })
