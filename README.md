@@ -1,2 +1,2 @@
 # jsCore
-@nrgsoft/core
+@nrg/core
