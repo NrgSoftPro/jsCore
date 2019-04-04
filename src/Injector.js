@@ -9,11 +9,11 @@ module.exports = class {
     this.setService('injector', this)
   }
 
-  createObject (className, properties = {}, services = {}) {
-    services.injector = this
+  resolve (dependencies, services = {}) {
+    const instances = {injector: this, ...services}
 
-    for (const [alias, definition] of Object.entries(className.services || {})) {
-      if (services[alias]) {
+    for (const [alias, definition] of Object.entries(dependencies)) {
+      if (instances[alias]) {
         continue
       }
 
@@ -21,10 +21,14 @@ module.exports = class {
         throw new Error(`Service '${alias}' was not found`)
       }
 
-      services[alias] = this.getService(definition)
+      instances[alias] = this.getService(definition)
     }
 
-    return new className(properties, services)
+    return instances
+  }
+
+  createObject (className, properties = {}, services = {}) {
+    return new className(properties, this.resolve(className.services || {}, services))
   }
 
   loadServices (definitions = {}) {
@@ -44,20 +48,21 @@ module.exports = class {
   }
 
   hasService (name) {
-    return (typeof name === 'string' && this.definitions.has(name)) ||
-      typeof name === 'function' || // isClass
-      (Array.isArray(name) && typeof name[0] === 'function') // isClass
+    return (typeof name === 'string' && this.definitions.has(name)) || Definition.isSuitable(name)
   }
 
   setService (name, definition) {
-    this.definitions.set(name, new Definition(definition))
+    const value = Definition.isSuitable(definition) ? new Definition(definition) : definition
+    this.definitions.set(name, value)
 
     return this
   }
 
   getService (name) {
     if (typeof name === 'string') {
-      return this.definitions.get(name).getInstance(this)
+      const value = this.definitions.get(name)
+
+      return value instanceof Definition ? value.getInstance(this) : value
     }
 
     const needle = new Definition(name)

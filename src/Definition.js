@@ -5,6 +5,10 @@ const instance = Symbol()
 
 const self = class {
 
+  static isSuitable (raw) {
+    return Array.isArray(raw) || typeof raw === 'function'
+  }
+
   get hasInstance () {
     return !!this[instance]
   }
